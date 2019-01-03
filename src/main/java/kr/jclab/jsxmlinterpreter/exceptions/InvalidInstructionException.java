@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package kr.jclab.jsxmlinterpreter;
+package kr.jclab.jsxmlinterpreter.exceptions;
 
-public class ParseException extends JsXMLInterpreterException {
-    public ParseException() {
+public class InvalidInstructionException extends ParseException {
+    public InvalidInstructionException() {
         super();
     }
 
-    public ParseException(String message) {
+    public InvalidInstructionException(String message) {
         super(message);
     }
 
-    public ParseException(String message, Throwable cause) {
+    public InvalidInstructionException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ParseException(Throwable cause) {
+    public InvalidInstructionException(Throwable cause) {
         super(cause);
     }
 
-    protected ParseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected InvalidInstructionException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

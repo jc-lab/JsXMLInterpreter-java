@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package kr.jclab.jsxmlinterpreter.internal;
+package kr.jclab.jsxmlinterpreter.exceptions;
 
-import kr.jclab.jsxmlinterpreter.instruction.Instruction;
+public class NotDefinedTagException extends ParseException {
+    protected String tagName;
 
-public class BlockProcessorBuilder {
-    private Instruction firstInstruction;
+    public NotDefinedTagException(final String tagName) {
+        super(tagName);
+        this.tagName = tagName;
+    }
 }

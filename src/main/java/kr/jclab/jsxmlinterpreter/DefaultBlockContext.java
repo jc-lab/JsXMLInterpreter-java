@@ -15,8 +15,6 @@
  */
 package kr.jclab.jsxmlinterpreter;
 
-import kr.jclab.jsxmlinterpreter.internal.VarContainer;
-
 import java.util.HashMap;
 import java.util.Map;
 

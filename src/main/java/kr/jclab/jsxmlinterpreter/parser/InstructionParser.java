@@ -16,7 +16,7 @@
 package kr.jclab.jsxmlinterpreter.parser;
 
 import kr.jclab.jsxmlinterpreter.JsXMLInterpreterParser;
-import kr.jclab.jsxmlinterpreter.ParseException;
+import kr.jclab.jsxmlinterpreter.exceptions.ParseException;
 import kr.jclab.jsxmlinterpreter.instruction.AbstractInstruction;
 import org.w3c.dom.Element;
 

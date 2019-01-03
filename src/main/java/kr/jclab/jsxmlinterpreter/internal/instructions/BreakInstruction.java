@@ -16,9 +16,9 @@
 package kr.jclab.jsxmlinterpreter.internal.instructions;
 
 import kr.jclab.jsxmlinterpreter.BlockContext;
-import kr.jclab.jsxmlinterpreter.ExecuteRuntimeException;
+import kr.jclab.jsxmlinterpreter.exceptions.ExecuteRuntimeException;
 import kr.jclab.jsxmlinterpreter.JsXMLInterpreter;
-import kr.jclab.jsxmlinterpreter.UnacceptableCommandException;
+import kr.jclab.jsxmlinterpreter.exceptions.UnacceptableCommandException;
 import kr.jclab.jsxmlinterpreter.instruction.AbstractInstruction;
 import kr.jclab.jsxmlinterpreter.instruction.Instruction;
 

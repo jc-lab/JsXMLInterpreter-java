@@ -13,26 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package kr.jclab.jsxmlinterpreter;
+package kr.jclab.jsxmlinterpreter.exceptions;
 
-public class ExecuteRuntimeException extends JsXMLInterpreterException {
-    public ExecuteRuntimeException() {
+import kr.jclab.jsxmlinterpreter.exceptions.JsXMLInterpreterException;
+
+public class ParseException extends JsXMLInterpreterException {
+    public ParseException() {
         super();
     }
 
-    public ExecuteRuntimeException(String message) {
+    public ParseException(String message) {
         super(message);
     }
 
-    public ExecuteRuntimeException(String message, Throwable cause) {
+    public ParseException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ExecuteRuntimeException(Throwable cause) {
+    public ParseException(Throwable cause) {
         super(cause);
     }
 
-    protected ExecuteRuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected ParseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

@@ -15,6 +15,9 @@
  */
 package kr.jclab.jsxmlinterpreter;
 
+import kr.jclab.jsxmlinterpreter.exceptions.NotDefinedTagException;
+import kr.jclab.jsxmlinterpreter.exceptions.ParseException;
+import kr.jclab.jsxmlinterpreter.exceptions.UnknownException;
 import kr.jclab.jsxmlinterpreter.instruction.AbstractInstruction;
 import kr.jclab.jsxmlinterpreter.internal.instructions.*;
 import kr.jclab.jsxmlinterpreter.parser.InstructionParser;

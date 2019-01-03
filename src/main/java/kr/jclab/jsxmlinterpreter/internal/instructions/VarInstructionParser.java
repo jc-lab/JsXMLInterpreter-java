@@ -15,9 +15,9 @@
  */
 package kr.jclab.jsxmlinterpreter.internal.instructions;
 
-import kr.jclab.jsxmlinterpreter.InvalidInstructionException;
+import kr.jclab.jsxmlinterpreter.exceptions.InvalidInstructionException;
 import kr.jclab.jsxmlinterpreter.JsXMLInterpreterParser;
-import kr.jclab.jsxmlinterpreter.ParseException;
+import kr.jclab.jsxmlinterpreter.exceptions.ParseException;
 import kr.jclab.jsxmlinterpreter.parser.InstructionParser;
 import org.w3c.dom.Element;
 
@@ -35,24 +35,31 @@ public class VarInstructionParser implements InstructionParser {
         String varValue = JsXMLInterpreterParser.getElementAttribute(codeElement, "value");
         String varOperation = JsXMLInterpreterParser.getElementAttribute(codeElement, "operation");
         String varKey = JsXMLInterpreterParser.getElementAttribute(codeElement, "key");
+        String varKeyRef = JsXMLInterpreterParser.getElementAttribute(codeElement, "key-ref");
         String varTo = JsXMLInterpreterParser.getElementAttribute(codeElement, "to");
 
-        if(varName == null) {
-            throw new InvalidInstructionException("'name' must be not null");
-        }
+        VarInstruction.Builder builder = new VarInstruction.Builder();
 
-        if(!varName.startsWith("$")) {
-            throw new InvalidInstructionException("'name' must be start with '$'");
-        }
+        if(varType != null)
+            builder.varType(varType);
 
-        return new ParseResult(new VarInstruction.Builder()
+        if(varKey != null)
+            builder.varKeyName(varKey);
+        else if(varKeyRef != null)
+            builder.varKeyRef(varKeyRef, parser.createExpression(varKeyRef));
+
+        if(varRef != null)
+            builder.varRef(varRef, parser.createExpression(varRef));
+        else if(varValue != null)
+            builder.varValue(varValue);
+
+        if(varOperation != null)
+            builder.varOperation(varOperation);
+        if(varTo != null)
+            builder.varTo(varTo);
+
+        return new ParseResult(builder
                 .varName(varName)
-                .varType(varType)
-                .varRef(varRef, parser.createExpression(varRef))
-                .varValue(varValue)
-                .varOperation(varOperation)
-                .varKey(varKey, parser.createExpression(varKey))
-                .varTo(varTo)
                 .build());
     }
 }

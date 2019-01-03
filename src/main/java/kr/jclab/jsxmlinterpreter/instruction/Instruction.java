@@ -16,7 +16,7 @@
 package kr.jclab.jsxmlinterpreter.instruction;
 
 import kr.jclab.jsxmlinterpreter.BlockContext;
-import kr.jclab.jsxmlinterpreter.ExecuteRuntimeException;
+import kr.jclab.jsxmlinterpreter.exceptions.ExecuteRuntimeException;
 import kr.jclab.jsxmlinterpreter.JsXMLInterpreter;
 
 public interface Instruction {

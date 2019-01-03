@@ -16,10 +16,10 @@
 package kr.jclab.jsxmlinterpreter.instruction;
 
 import kr.jclab.jsxmlinterpreter.BlockContext;
-import kr.jclab.jsxmlinterpreter.ExecuteRuntimeException;
+import kr.jclab.jsxmlinterpreter.exceptions.ExecuteRuntimeException;
 import kr.jclab.jsxmlinterpreter.DefaultBlockContext;
 import kr.jclab.jsxmlinterpreter.JsXMLInterpreter;
-import kr.jclab.jsxmlinterpreter.internal.VarContainer;
+import kr.jclab.jsxmlinterpreter.VarContainer;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.MapContext;
 

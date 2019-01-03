@@ -16,9 +16,13 @@
 package kr.jclab.jsxmlinterpreter.internal.instructions;
 
 import kr.jclab.jsxmlinterpreter.*;
+import kr.jclab.jsxmlinterpreter.exceptions.ExecuteRuntimeException;
+import kr.jclab.jsxmlinterpreter.exceptions.InvalidInstructionException;
+import kr.jclab.jsxmlinterpreter.exceptions.ParseException;
+import kr.jclab.jsxmlinterpreter.exceptions.UnacceptableCommandException;
 import kr.jclab.jsxmlinterpreter.instruction.AbstractInstruction;
 import kr.jclab.jsxmlinterpreter.instruction.Instruction;
-import kr.jclab.jsxmlinterpreter.internal.VarContainer;
+import kr.jclab.jsxmlinterpreter.VarContainer;
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
 
@@ -32,8 +36,9 @@ public class VarInstruction extends AbstractInstruction {
     private Expression varRefExpr;
     private Object varValue;
     private String varOperation;
-    private String varKeyText;
-    private Expression varKeyExpr;
+    private String varKeyName;
+    private String varKeyRefText;
+    private Expression varKeyRefExpr;
     private String varTo;
 
     public static class Builder {
@@ -69,11 +74,14 @@ public class VarInstruction extends AbstractInstruction {
             return this;
         }
 
-        public Builder varKey(String varKeyText, Expression varKeyExpr) {
-            if(varKeyText != null && !varKeyText.isEmpty()) {
-                this.target.varKeyText = varKeyText;
-                this.target.varKeyExpr = varKeyExpr;
-            }
+        public Builder varKeyName(String varKeyName) {
+            this.target.varKeyName = varKeyName;
+            return this;
+        }
+
+        public Builder varKeyRef(String varKeyRefText, Expression varKeyRefExpr) {
+            this.target.varKeyRefText = varKeyRefText;
+            this.target.varKeyRefExpr = varKeyRefExpr;
             return this;
         }
 
@@ -83,16 +91,22 @@ public class VarInstruction extends AbstractInstruction {
         }
 
         public VarInstruction build() throws ParseException {
+            if(this.target.varName == null) {
+                throw new InvalidInstructionException("'name' must be not null");
+            }
+            if(!this.target.varName.startsWith("$")) {
+                throw new InvalidInstructionException("'name' must be start with '$'");
+            }
             if(this.target.varOperation != null) {
                 if("put".equalsIgnoreCase(this.target.varOperation)) {
-                    if(this.target.varKeyExpr == null) {
+                    if(this.target.varKeyName == null && this.target.varKeyRefExpr == null) {
                         throw new InvalidInstructionException("no have a 'key'");
                     }
                 }else if("get".equalsIgnoreCase(this.target.varOperation)) {
                     if(this.target.varTo == null || this.target.varTo.isEmpty()) {
                         throw new InvalidInstructionException("no have a 'to'");
                     }
-                    if(this.target.varKeyExpr == null) {
+                    if(this.target.varKeyName == null && this.target.varKeyRefExpr == null) {
                         throw new InvalidInstructionException("no have a 'key'");
                     }
                 }
@@ -108,17 +122,22 @@ public class VarInstruction extends AbstractInstruction {
         this.varRefExpr = null;
         this.varValue = null;
         this.varOperation = null;
-        this.varKeyText = null;
-        this.varKeyExpr = null;
+        this.varKeyName = null;
+        this.varKeyRefText = null;
+        this.varKeyRefExpr = null;
         this.varTo = null;
     }
 
     private String evalVarKey(JexlContext context) {
-        Object object = this.varKeyExpr.evaluate(context);
-        if(object instanceof VarContainer) {
-            return (String)((VarContainer)object).getValue();
+        if(this.varKeyName != null) {
+            return this.varKeyName;
+        }else {
+            Object object = this.varKeyRefExpr.evaluate(context);
+            if (object instanceof VarContainer) {
+                return (String) ((VarContainer) object).getValue();
+            }
+            return (String) object;
         }
-        return (String)object;
     }
 
     @Override
@@ -129,8 +148,10 @@ public class VarInstruction extends AbstractInstruction {
 
         if (this.varValue != null) {
             valueObject = this.varValue;
-        } else {
+        } else if(this.varRefExpr != null) {
             valueObject = this.varRefExpr.evaluate(context);
+        } else {
+            valueObject = VarContainer.newInitialObject(varContainer.getType());
         }
 
         if(this.varOperation == null) {
@@ -158,7 +179,7 @@ public class VarInstruction extends AbstractInstruction {
                         Integer index = Integer.valueOf(this.evalVarKey(context));
                         varTo.setValue(list.get(index));
                     } catch (NumberFormatException e) {
-                        throw new UnacceptableCommandException("Key '" + this.varKeyText + "' is not number");
+                        throw new UnacceptableCommandException("Key '" + (this.varKeyName != null ? this.varKeyName : this.varKeyRefText) + "' is not number");
                     }
                 }else if(varContainer.getType() == VarType.V_Map) {
                     varTo.setValue(map.get(evalVarKey(context)));

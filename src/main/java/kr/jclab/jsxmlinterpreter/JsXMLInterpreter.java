@@ -15,9 +15,10 @@
  */
 package kr.jclab.jsxmlinterpreter;
 
+import kr.jclab.jsxmlinterpreter.exceptions.JsXMLInterpreterException;
+import kr.jclab.jsxmlinterpreter.exceptions.NotDefinedTagException;
 import kr.jclab.jsxmlinterpreter.instruction.AbstractInstruction;
 import kr.jclab.jsxmlinterpreter.instruction.Instruction;
-import kr.jclab.jsxmlinterpreter.internal.VarContainer;
 
 import java.util.Map;
 

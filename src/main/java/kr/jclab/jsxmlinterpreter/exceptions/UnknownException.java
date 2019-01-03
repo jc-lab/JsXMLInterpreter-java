@@ -13,13 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package kr.jclab.jsxmlinterpreter;
+package kr.jclab.jsxmlinterpreter.exceptions;
 
-public class NotDefinedTagException extends ParseException {
-    protected String tagName;
+public class UnknownException extends JsXMLInterpreterException {
+    public UnknownException() {
+        super();
+    }
 
-    public NotDefinedTagException(final String tagName) {
-        super(tagName);
-        this.tagName = tagName;
+    public UnknownException(String message) {
+        super(message);
+    }
+
+    public UnknownException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public UnknownException(Throwable cause) {
+        super(cause);
+    }
+
+    protected UnknownException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

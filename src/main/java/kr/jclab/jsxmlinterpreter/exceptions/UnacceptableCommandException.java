@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package kr.jclab.jsxmlinterpreter;
+package kr.jclab.jsxmlinterpreter.exceptions;
 
 public class UnacceptableCommandException extends ExecuteRuntimeException {
     public UnacceptableCommandException() {
